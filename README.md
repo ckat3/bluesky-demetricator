@@ -1,6 +1,6 @@
 # Bluesky Demetricator
-Pretty rudimentary userscript to hide the number of likes, reskeets and notifications from Bluesky.
+A barebones userscript that hides the number of likes, reskeets and notifications on [Bluesky](https://bsky.app/).
 
-Contributions very welcomed!
+Contributions very welcome!
 
-Inspired (of course) by [Ben Grosser](https://bengrosser.com/)'s [Twitter Demetricator](https://bengrosser.com/projects/twitter-demetricator/).
+Inspired by [Ben Grosser](https://bengrosser.com/)'s [Twitter Demetricator](https://bengrosser.com/projects/twitter-demetricator/).
