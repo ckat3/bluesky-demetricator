@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bluesky Demetricator
-// @version      1.0
-// @description  Removes likes and reskeet counts from Bluesky
+// @version      1.0.1
+// @description  Removes likes and repost counts from Bluesky
 // @match        *://*.bsky.app/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=bsky.app
 // @grant        GM_addStyle
@@ -9,7 +9,7 @@
 
 (function() {
     'use strict';
-    
+
     let css = `
         [data-testid="likeCount"],
         [data-testid="repostCount"],
@@ -18,8 +18,9 @@
         {
             display: none !important;
         }
-        
-        a[aria-label="Notifications"][role="tab"] div div {
+
+        a[aria-label="Notifications"][role="tab"] div div
+        {
           color: #0000 !important;
         }
         `;
@@ -29,8 +30,9 @@
     document.addEventListener('DOMContentLoaded', function() {
         const titleObserver = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                if (document.title.match(/^\([0-9]*\) /)) {
-                    document.title = document.title.replace(/^\([0-9]*\) /, "");
+				let new_title = document.title.replace(/^\([0-9]*\) /, "");
+                if (new_title !== document.title) {
+                    document.title = new_title;
                     return;
                 }
             });
@@ -41,7 +43,7 @@
             subtree: true,
             characterData: true
         });
-    
+
         // NOTIFICATIONS PAGE
         if (window.location.pathname.includes('/notifications')) {
             function hideNotifications() {
@@ -50,9 +52,10 @@
                     let spans = notification.querySelectorAll('span');
                     spans.forEach(function(span) {
                         if (span.hasAttribute("data-tooltip")) {
-                            return; // hack to stop before the content (the timestamp has this attribute)
+							 // avoids matching inside the skeet (the timestamp has this attribute)
+                            return;
                         }
-                        
+
                         if (span.textContent.endsWith("liked your post")) {
                             notification.style.display = "none";
                             return;
